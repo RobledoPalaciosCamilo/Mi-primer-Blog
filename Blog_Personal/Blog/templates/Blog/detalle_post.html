@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.titulo }} - Mi Blog Portafolio</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
+        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
+        .main-container { max-width: 800px; margin: 40px auto; padding: 0 1.5rem; }
+
+        /* Estilos específicos para el artículo a pantalla completa */
+        .article-card { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .article-header { margin-bottom: 2rem; text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 2rem; }
+        .article-title { font-size: 2.5rem; color: #1e293b; margin-bottom: 1rem; line-height: 1.2; }
+        .article-meta { color: #64748b; font-size: 1rem; }
+        
+        .article-image { width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        .article-content { font-size: 1.15rem; color: #334155; line-height: 1.8; }
+        /* Ajuste para que los párrafos tengan espacio entre sí */
+        .article-content p { margin-bottom: 1.5rem; } 
+        
+        .btn-back { display: inline-block; margin-top: 3rem; color: #3b82f6; text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 8px; background-color: #eff6ff; transition: background-color 0.2s; }
+        .btn-back:hover { background-color: #dbeafe; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 MiBlogPortafolio</a>
+    </nav>
+
+    <main class="main-container">
+        <article class="article-card">
+            
+            <header class="article-header">
+                <h1 class="article-title">{{ post.titulo }}</h1>
+                <div class="article-meta">
+                    🗓️ Publicado el {{ post.fecha_creacion|date:"d \d\e F, Y" }}
+                </div>
+            </header>
+
+            {% if post.foto %}
+                <img src="{{ post.foto.url }}" alt="{{ post.titulo }}" class="article-image">
+            {% endif %}
+
+            <div class="article-content">
+                {{ post.contenido|linebreaks }}
+            </div>
+
+            <a href="{% url 'lista_posts' %}" class="btn-back">← Volver a todos los artículos</a>
+            
+        </article>
+    </main>
+
+</body>
+</html>

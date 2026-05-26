@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog Portafolio</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
+        
+        /* Navegación */
+        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
+        
+        /* Contenedor Principal */
+        .main-container { max-width: 800px; margin: 2.5rem auto; padding: 0 1.5rem; }
+        
+        /* Botón Crear */
+        .btn-create { display: block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.25rem; text-align: center; text-decoration: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; margin-bottom: 3rem; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3); transition: transform 0.2s; }
+        .btn-create:hover { transform: translateY(-2px); }
+
+        /* Título de sección */
+        .section-title { font-size: 1.5rem; color: #334155; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+
+        /* Tarjetas de Posts */
+        .posts-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+        .post-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 6px solid #3b82f6; text-decoration: none; color: inherit; display: block; transition: transform 0.2s; }
+        .post-card:hover { transform: translateX(4px); }
+        .post-title { font-size: 1.35rem; color: #1e293b; margin-bottom: 0.5rem; }
+        .post-asunto { color: #475569; margin-bottom: 1rem; }
+        .post-meta { font-size: 0.85rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.75rem; }
+        
+        /* Estado vacío */
+        .empty-state { text-align: center; padding: 3rem; background: white; border-radius: 12px; border: 2px dashed #cbd5e1; color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">🚀 MiBlogPortafolio</div>
+            <div>Blog en Construcción</div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <a href="{% url 'crear_post' %}" class="btn-create">✍️ Crear un Nuevo Post</a>
+
+        <h3 class="section-title">Últimos artículos publicados</h3>
+        
+        <div class="posts-grid">
+            {% for post in lista_de_posteos %}
+                <a href="{% url 'detalle_post' post.id %}" class="post-card">
+                    <h2 class="post-title">{{ post.titulo }}</h2>
+                    <p class="post-asunto">{{ post.asunto }}</p>
+                    <div class="post-meta">
+                        Publicado el {{ post.fecha_creacion|date:"d \d\e F, Y" }}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="empty-state">
+                    <p>🎉 Aún no hay publicaciones. Haz clic en el botón de arriba para estrenar tu blog.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </main>
+
+</body>
+</html>

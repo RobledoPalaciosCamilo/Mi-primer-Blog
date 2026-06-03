@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ post.titulo }} - Mi Blog Portafolio</title>
+    <title>{{ post.titulo }} - Blog Informatico</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
-        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
         .main-container { max-width: 800px; margin: 40px auto; padding: 0 1.5rem; }
 
@@ -30,7 +30,7 @@
 <body>
 
     <nav class="navbar">
-        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 MiBlogPortafolio</a>
+        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 Blog Informatico</a>
     </nav>
 
     <main class="main-container">
@@ -52,8 +52,15 @@
             </div>
 
             <a href="{% url 'lista_posts' %}" class="btn-back">← Volver a todos los artículos</a>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <a href="{% url 'editar_post' post.id %}" style="padding: 0.5rem 1rem; background-color: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">✏️ Editar</a>
+                <a href="{% url 'eliminar_post' post.id %}" style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; text-decoration: none; border-radius: 6px;">🗑️ Eliminar</a>
+            </div>
             
         </article>
+        <footer class="text-center mt-5">
+            <p>&copy; 2026 Blog Informatico. Todos los derechos reservados.</p>
+        </footer>
     </main>
 
 </body>

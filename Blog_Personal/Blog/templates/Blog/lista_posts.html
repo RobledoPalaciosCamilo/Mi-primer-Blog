@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Blog Portafolio</title>
+    <title>Blog Informatico</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
         
         /* Navegación */
-        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .navbar-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .navbar-brand { font-size: 1.5rem; font-weight: 700; }
         
@@ -39,8 +39,20 @@
 
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="navbar-brand">🚀 MiBlogPortafolio</div>
-            <div>Blog en Construcción</div>
+            <a href="{% url 'lista_posts' %}" class="navbar-brand" style="text-decoration: none; color: white;">🚀 MiBlogPortafolio</a>
+            
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                {% if user.is_authenticated %}
+                    <span>Hola, <strong>{{ user.username }}</strong></span>
+                    
+                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: #cbd5e1; cursor: pointer; text-decoration: underline; font-size: 1rem;">Cerrar sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" style="color: white; text-decoration: none; border: 1px solid white; padding: 0.5rem 1rem; border-radius: 6px;">Iniciar Sesión</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
@@ -65,7 +77,9 @@
                 </div>
             {% endfor %}
         </div>
-
+        <footer class="text-center mt-5">
+            <p>&copy; 2026 Blog Informatico. Todos los derechos reservados.</p>
+        </footer>
     </main>
 
 </body>

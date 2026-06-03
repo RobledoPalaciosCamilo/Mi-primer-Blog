@@ -120,3 +120,12 @@ STATIC_URL = 'static/'
 # Agrega esto para las imágenes de tu blog:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# A dónde redirigir si alguien sin sesión intenta entrar a una vista protegida
+LOGIN_URL = 'login'
+
+# A dónde redirigir a un usuario justo después de hacer login con éxito
+LOGIN_REDIRECT_URL = 'lista_posts'
+
+# A dónde redirigir a un usuario tras cerrar sesión
+LOGOUT_REDIRECT_URL = 'lista_posts'

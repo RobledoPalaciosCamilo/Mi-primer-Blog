@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Post</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
+        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
+        .main-container { max-width: 600px; margin: 50px auto; padding: 0 1.5rem; }
+        .warning-card { background: white; padding: 2.5rem; border-radius: 12px; text-align: center; border-top: 6px solid #ef4444; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .btn-danger { display: inline-block; background-color: #ef4444; color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 1rem; margin-right: 1rem; }
+        .btn-secondary { display: inline-block; background-color: #e2e8f0; color: #475569; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav class="navbar"><a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 Blog Informatico</a></nav>
+    <main class="main-container">
+        <div class="warning-card">
+            <h2 style="margin-bottom: 1rem; color: #ef4444;">⚠️ ¿Estás seguro?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">
+                Estás a punto de eliminar el artículo <strong>"{{ post.titulo }}"</strong>.<br>
+                Esta acción no se puede deshacer.
+            </p>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger">Sí, eliminar definitivamente</button>
+                <a href="{% url 'detalle_post' post.id %}" class="btn-secondary">Cancelar</a>
+            </form>
+        </div>
+        <footer class="text-center mt-5">
+            <p>&copy; 2026 Blog Informatico. Todos los derechos reservados.</p>
+        </footer>
+    </main>
+</body>
+</html>

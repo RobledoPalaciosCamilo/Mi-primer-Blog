@@ -12,6 +12,7 @@ class Perfil(models.Model):
 
 class Post(models.Model):
     # foreignKey con el user
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=200)
     asunto = models.CharField(max_length=300)
     contenido = models.TextField()

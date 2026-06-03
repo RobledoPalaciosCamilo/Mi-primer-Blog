@@ -38,7 +38,7 @@
         <div class="form-card">
             <h2 class="form-title">✍️ Publicar nuevo artículo</h2>
             
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST">
                 {% csrf_token %}
                 
                 {% for field in form %}

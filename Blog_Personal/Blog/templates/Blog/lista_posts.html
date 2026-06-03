@@ -43,7 +43,7 @@
             
             <div style="display: flex; gap: 1rem; align-items: center;">
                 {% if user.is_authenticated %}
-                    <span>Hola, <strong>{{ user.username }}</strong></span>
+                    <a href="{% url 'perfil' %}" style="color: white; text-decoration: none;">Hola, <strong style="text-decoration: underline;">{{ user.username }}</strong></a>
                     
                     <form action="{% url 'logout' %}" method="POST" style="display: inline;">
                         {% csrf_token %}
@@ -75,8 +75,20 @@
                 <a href="{% url 'detalle_post' post.id %}" class="post-card">
                     <h2 class="post-title">{{ post.titulo }}</h2>
                     <p class="post-asunto">{{ post.asunto }}</p>
-                    <div class="post-meta">👤 Creado por: <strong>{{ post.autor.username }}</strong> &nbsp;|&nbsp; 🗓️ {{ post.fecha_creacion|date:"d \d\e F, Y" }}
-                    </div>
+                    <div class="post-meta" style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem;">
+    
+            {% if post.autor.perfil and post.autor.perfil.foto_perfil %}
+                <img src="{{ post.autor.perfil.foto_perfil.url }}" alt="Foto de {{ post.autor.username }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+            {% else %}
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sin foto" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; opacity: 0.5; border: 2px solid #e2e8f0;">
+            {% endif %}
+
+            <div style="line-height: 1.2;">
+                <span style="color: #475569; font-weight: 600;">{{ post.autor.username }}</span><br>
+                <span style="font-size: 0.85rem; color: #94a3b8;">{{ post.fecha_creacion|date:"d \d\e F, Y" }}</span>
+            </div>
+            
+        </div>
                 </a>
             {% empty %}
                 <div class="empty-state">

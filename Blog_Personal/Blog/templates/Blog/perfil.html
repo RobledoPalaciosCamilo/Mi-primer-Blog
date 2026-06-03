@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - {{ user.username }}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
+        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
+        
+        .dashboard-container { max-width: 1000px; margin: 40px auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; }
+        
+        /* Panel Izquierdo: Perfil */
+        .profile-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; height: fit-content; }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.5rem auto; border: 4px solid #e2e8f0; display: block; background-color: #f1f5f9; }
+        .profile-name { font-size: 1.5rem; color: #1e293b; margin-bottom: 0.5rem; }
+        .form-control { width: 100%; padding: 0.5rem; margin-top: 1rem; border: 1px solid #cbd5e1; border-radius: 6px; }
+        .btn-update { width: 100%; background-color: #3b82f6; color: white; padding: 0.75rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; transition: 0.2s; }
+        .btn-update:hover { background-color: #2563eb; }
+
+        /* Panel Derecho: Historial de Posts */
+        .history-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .section-title { border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1.5rem; color: #334155; }
+        
+        .mini-post { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .mini-post-info h4 { margin: 0; color: #1e293b; font-size: 1.1rem; }
+        .mini-post-info p { margin: 0; color: #64748b; font-size: 0.85rem; }
+        .mini-post-actions a { text-decoration: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin-left: 0.5rem; }
+        .btn-edit { background-color: #fef3c7; color: #d97706; }
+        .btn-delete { background-color: #fee2e2; color: #ef4444; }
+        
+        .alert-success { background-color: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #10b981; }
+        
+        /* Responsive para móviles */
+        @media (max-width: 768px) { .dashboard-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 MiBlogPortafolio</a>
+    </nav>
+
+    <div class="dashboard-container">
+        
+        <aside class="profile-card">
+            {% if perfil.foto_perfil %}
+                <img src="{{ perfil.foto_perfil.url }}" alt="Foto de {{ user.username }}" class="profile-img">
+            {% else %}
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sin foto" class="profile-img" style="opacity: 0.5;">
+            {% endif %}
+            
+            <h2 class="profile-name">@{{ user.username }}</h2>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Miembro desde {{ user.date_joined|date:"M Y" }}</p>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data" style="text-align: left; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+                {% csrf_token %}
+                <label style="font-size: 0.9rem; font-weight: bold; color: #475569;">Actualizar foto de perfil:</label>
+                {{ form.foto_perfil }}
+                <button type="submit" class="btn-update">Subir nueva foto</button>
+            </form>
+        </aside>
+
+        <section class="history-card">
+            <h3 class="section-title">📚 Mi historial de publicaciones</h3>
+            
+            {% for post in mis_posts %}
+                <div class="mini-post">
+                    <div class="mini-post-info">
+                        <h4><a href="{% url 'detalle_post' post.id %}" style="text-decoration: none; color: inherit;">{{ post.titulo }}</a></h4>
+                        <p>{{ post.fecha_creacion|date:"d M, Y" }}</p>
+                    </div>
+                    <div class="mini-post-actions">
+                        <a href="{% url 'editar_post' post.id %}" class="btn-edit">Editar</a>
+                        <a href="{% url 'eliminar_post' post.id %}" class="btn-delete">Borrar</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div style="text-align: center; padding: 2rem; color: #64748b;">
+                    <p>Aún no has escrito ningún artículo.</p>
+                    <a href="{% url 'crear_post' %}" style="display: inline-block; margin-top: 1rem; color: #3b82f6; text-decoration: none; font-weight: bold;">¡Anímate a crear el primero!</a>
+                </div>
+            {% endfor %}
+        </section>
+
+    </div>
+    <div>
+        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    </div>
+
+</body>
+</html>

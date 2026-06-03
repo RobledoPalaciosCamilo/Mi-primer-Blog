@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Post
-from .forms import PostForm
+from .models import Post, Perfil
+from .forms import PostForm, PerfilFrom
 
 # Create your views here.
 
@@ -23,7 +23,7 @@ def detalle_post(request, post_id):
 def crear_post(request):
     # Si el usuario presiona el boton guardar (metodo POST)
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST)
         if form.is_valid():
             # Crea el bojeto en la memoria pero PAUSA el guardado en la base de datos
             nuevo_post = form.save(commit=False)
@@ -53,7 +53,7 @@ def editar_post(request, post_id):
 
     if request.method == 'POST':
         # 3. llenamos el formulario con los nuevos datos, pero actualizamos la instancia
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect('detalle_post',post_id=post.id) # volvemos al Post actualizado
@@ -97,3 +97,29 @@ def registro(request):
         form = UserCreationForm()
     
     return render(request, 'registration/registro.html', {'form': form})
+
+# VISTA DEL PERFIL DEL USUARIO
+def perfil(request):
+
+    # 1. Buscamos el perfil del usuario actual (si no existe, lo crea)
+    perfil_usuario, creado = Perfil.objects.get_or_create(usuario=request.user)
+
+    # 2. Traemos solo los posts de este usuario
+    mis_posts = Post.objects.filter(autor=request.user).order_by('-fecha_creacion')
+
+    if request.method == 'POST':
+        form = PerfilFrom(request.POST, request.FILES, instance=perfil_usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '✅ ¡Tu foto de perfil ha sido actualizada!')
+            return redirect('perfil')
+    
+    else:
+        form = PerfilFrom(instance=perfil_usuario)
+
+    contexto = {
+        'form': form,
+        'perfil': perfil_usuario,
+        'mis_posts': mis_posts
+    }
+    return render(request, 'blog/perfil.html', contexto)

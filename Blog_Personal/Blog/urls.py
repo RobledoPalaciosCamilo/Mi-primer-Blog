@@ -20,4 +20,7 @@ urlpatterns = [
     # Ruta para el registro de nuevos usuarios
     path('registro/', views.registro, name='registro'), 
 
+    # Ruta panel control del usuario
+    path('mi-perfil/', views.perfil, name='perfil'),
+
 ]

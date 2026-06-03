@@ -57,7 +57,15 @@
     </nav>
 
     <main class="main-container">
-        
+
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background-color: #fee2e2; border-left: 6px solid #ef4444; color: #991b1b; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: 500;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <a href="{% url 'crear_post' %}" class="btn-create">✍️ Crear un Nuevo Post</a>
 
         <h3 class="section-title">Últimos artículos publicados</h3>
@@ -67,8 +75,7 @@
                 <a href="{% url 'detalle_post' post.id %}" class="post-card">
                     <h2 class="post-title">{{ post.titulo }}</h2>
                     <p class="post-asunto">{{ post.asunto }}</p>
-                    <div class="post-meta">
-                        Publicado el {{ post.fecha_creacion|date:"d \d\e F, Y" }}
+                    <div class="post-meta">👤 Creado por: <strong>{{ post.autor.username }}</strong> &nbsp;|&nbsp; 🗓️ {{ post.fecha_creacion|date:"d \d\e F, Y" }}
                     </div>
                 </a>
             {% empty %}
@@ -77,10 +84,10 @@
                 </div>
             {% endfor %}
         </div>
-        <footer class="text-center mt-5">
-            <p>&copy; 2026 Blog Informatico. Todos los derechos reservados.</p>
-        </footer>
     </main>
+    <div>
+        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    </div>
 
 </body>
 </html>

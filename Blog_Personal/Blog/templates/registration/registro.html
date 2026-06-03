@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; }
+        .login-card { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        .login-title { font-size: 1.75rem; color: #1e293b; margin-bottom: 2rem; font-weight: 700; text-align: center; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #475569; }
+        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+        .form-control:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        
+        /* Estilos para los textos de ayuda que genera Django (ej. "La contraseña debe tener 8 caracteres...") */
+        .helptext { display: block; font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
+        ul.errorlist { color: #ef4444; list-style: none; padding: 0; margin-top: 0.5rem; font-size: 0.9rem; }
+        
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; margin-top: 1rem; }
+        .btn-submit:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2 class="login-title">👋 Únete a la comunidad</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    
+                    {% if field.help_text %}
+                        <span class="helptext">{{ field.help_text }}</span>
+                    {% endif %}
+                    
+                    {% for error in field.errors %}
+                        <ul class="errorlist"><li>{{ error }}</li></ul>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn-submit">Crear mi Cuenta</button>
+        </form>
+        
+        <div style="margin-top: 2rem; text-align: center;">
+            <p style="color: #64748b; font-size: 0.95rem;">
+                ¿Ya tienes una cuenta? <a href="{% url 'login' %}" style="color: #3b82f6; font-weight: 600; text-decoration: none;">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

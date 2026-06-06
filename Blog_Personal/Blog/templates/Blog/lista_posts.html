@@ -4,55 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Informatico</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
         
-        /* Navegación */
-        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .navbar-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
+        /* 1. FONDO NEGRO CON ESTILO */
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: #121212; 
+            color: #f8fafc; 
+            line-height: 1.6; 
+        }
         
+        /* 2. BARRA DE NAVEGACIÓN NEÓN AZUL BRILLANTE */
+        .navbar { 
+            background-color: #0a0a0a; 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+        .navbar-brand { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            text-decoration: none; 
+            color: #00f3ff; 
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.8); 
+        }
+        .navbar-menu { display: flex; gap: 1.5rem; align-items: center; }
+        
+        .nav-link { 
+            color: #cbd5e1; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+            transition: all 0.3s ease; 
+        }
+        .nav-link:hover { 
+            color: #00f3ff; 
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); 
+        }
+        
+        .btn-nav-primary { 
+            background-color: transparent; 
+            color: #00f3ff; 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            border: 1px solid #00f3ff;
+            transition: all 0.3s ease; 
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+        }
+        .btn-nav-primary:hover { 
+            background-color: #00f3ff; 
+            color: #000; 
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); 
+        }
+        
+        .btn-logout { background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: 0.3s; }
+        .btn-logout:hover { color: #f87171; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); }
+
         /* Contenedor Principal */
         .main-container { max-width: 800px; margin: 2.5rem auto; padding: 0 1.5rem; }
         
-        /* Botón Crear */
-        .btn-create { display: block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.25rem; text-align: center; text-decoration: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; margin-bottom: 3rem; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3); transition: transform 0.2s; }
-        .btn-create:hover { transform: translateY(-2px); }
+        /* Botón Crear adaptado al estilo Neón */
+        .btn-create { 
+            display: block; 
+            background-color: transparent; 
+            color: #00f3ff; 
+            border: 2px solid #00f3ff;
+            padding: 1.25rem; 
+            text-align: center; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            margin-bottom: 3rem; 
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); 
+            transition: all 0.3s ease; 
+        }
+        .btn-create:hover { 
+            background-color: #00f3ff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); 
+            transform: translateY(-2px); 
+        }
 
-        /* Título de sección */
-        .section-title { font-size: 1.5rem; color: #334155; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+        /* Título de sección adaptado al fondo oscuro */
+        .section-title { font-size: 1.5rem; color: #f8fafc; margin-bottom: 1.5rem; border-bottom: 2px solid #334155; padding-bottom: 0.5rem; }
 
-        /* Tarjetas de Posts */
+        /* 3. TARJETAS BLANCAS (Posts) */
         .posts-grid { display: flex; flex-direction: column; gap: 1.5rem; }
-        .post-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 6px solid #3b82f6; text-decoration: none; color: inherit; display: block; transition: transform 0.2s; }
+        .post-card { 
+            background-color: #ffffff; 
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-left: 6px solid #00f3ff; /* Acento neón en la tarjeta */
+            text-decoration: none; 
+            color: #1e293b; 
+            display: block; 
+            transition: transform 0.2s; 
+        }
         .post-card:hover { transform: translateX(4px); }
-        .post-title { font-size: 1.35rem; color: #1e293b; margin-bottom: 0.5rem; }
+        .post-title { font-size: 1.35rem; color: #0f172a; margin-bottom: 0.5rem; }
         .post-asunto { color: #475569; margin-bottom: 1rem; }
-        .post-meta { font-size: 0.85rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.75rem; }
+        .post-meta { font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 0.75rem; }
         
-        /* Estado vacío */
-        .empty-state { text-align: center; padding: 3rem; background: white; border-radius: 12px; border: 2px dashed #cbd5e1; color: #64748b; }
+        /* Estado vacío adaptado al fondo oscuro */
+        .empty-state { text-align: center; padding: 3rem; background: #1e293b; border-radius: 12px; border: 2px dashed #475569; color: #cbd5e1; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="navbar-container">
-            <a href="{% url 'lista_posts' %}" class="navbar-brand" style="text-decoration: none; color: white;">🚀 MiBlogPortafolio</a>
-            
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'perfil' %}" style="color: white; text-decoration: none;">Hola, <strong style="text-decoration: underline;">{{ user.username }}</strong></a>
-                    
-                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; color: #cbd5e1; cursor: pointer; text-decoration: underline; font-size: 1rem;">Cerrar sesión</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" style="color: white; text-decoration: none; border: 1px solid white; padding: 0.5rem 1rem; border-radius: 6px;">Iniciar Sesión</a>
-                {% endif %}
-            </div>
+        <a href="{% url 'lista_posts' %}" class="navbar-brand"><i class="fa-solid fa-code"></i> MiBlogPortafolio</a>
+        
+        <div class="navbar-menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_post' %}" class="btn-nav-primary"><i class="fa-solid fa-pen-to-square"></i> Crear un Post</a>
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'perfil' %}" class="nav-link"><i class="fa-solid fa-user"></i> Mi Perfil</a>
+                
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
+                </form>
+            {% else %}
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'login' %}" class="btn-nav-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión</a>
+            {% endif %}
         </div>
     </nav>
 
@@ -60,13 +146,13 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div style="background-color: #fee2e2; border-left: 6px solid #ef4444; color: #991b1b; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: 500;">
-                    {{ message }}
+                <div style="background-color: #450a0a; border-left: 6px solid #ef4444; color: #fca5a5; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 500;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> {{ message }}
                 </div>
             {% endfor %}
         {% endif %}
 
-        <a href="{% url 'crear_post' %}" class="btn-create">✍️ Crear un Nuevo Post</a>
+        <a href="{% url 'crear_post' %}" class="btn-create"><i class="fa-solid fa-plus"></i> Crear un Nuevo Post</a>
 
         <h3 class="section-title">Últimos artículos publicados</h3>
         
@@ -77,28 +163,32 @@
                     <p class="post-asunto">{{ post.asunto }}</p>
                     <div class="post-meta" style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem;">
     
-            {% if post.autor.perfil and post.autor.perfil.foto_perfil %}
-                <img src="{{ post.autor.perfil.foto_perfil.url }}" alt="Foto de {{ post.autor.username }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
-            {% else %}
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sin foto" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; opacity: 0.5; border: 2px solid #e2e8f0;">
-            {% endif %}
+                        {% if post.autor.perfil and post.autor.perfil.foto_perfil %}
+                            <img src="{{ post.autor.perfil.foto_perfil.url }}" alt="Foto de {{ post.autor.username }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+                        {% else %}
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f1f5f9; border: 2px solid #e2e8f0; display: flex; justify-content: center; align-items: center; color: #94a3b8; font-size: 1.2rem;">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        {% endif %}
 
-            <div style="line-height: 1.2;">
-                <span style="color: #475569; font-weight: 600;">{{ post.autor.username }}</span><br>
-                <span style="font-size: 0.85rem; color: #94a3b8;">{{ post.fecha_creacion|date:"d \d\e F, Y" }}</span>
-            </div>
+                        <div style="line-height: 1.2;">
+                            <span style="color: #475569; font-weight: 600;">{{ post.autor.username }}</span><br>
+                            <span style="font-size: 0.85rem; color: #94a3b8;"><i class="fa-regular fa-calendar-days"></i> {{ post.fecha_creacion|date:"d \d\e F, Y" }}</span>
+                        </div>
             
-        </div>
+                    </div>
                 </a>
             {% empty %}
                 <div class="empty-state">
-                    <p>🎉 Aún no hay publicaciones. Haz clic en el botón de arriba para estrenar tu blog.</p>
+                    <i class="fa-solid fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; color: #475569;"></i>
+                    <p>Aún no hay publicaciones. Haz clic en el botón de arriba para estrenar tu blog.</p>
                 </div>
             {% endfor %}
         </div>
     </main>
-    <div>
-        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    
+    <div style="padding-bottom: 2rem;">
+        <p style="text-align: center; width: 100%; display: block; color: #64748b; font-size: 0.9rem;">© 2026 Camilo Robledo Palacios. Todos los derechos reservados.</p>
     </div>
 
 </body>

@@ -4,34 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - {{ user.username }}</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
-        .navbar { background-color: #1e293b; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
         
+        /* 1. FONDO NEGRO CON ESTILO */
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #121212; color: #f8fafc; line-height: 1.6; }
+        
+        /* 2. BARRA DE NAVEGACIÓN NEÓN AZUL BRILLANTE */
+        .navbar { background-color: #0a0a0a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00f3ff; box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.8); }
+        .navbar-menu { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-link { color: #cbd5e1; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        .nav-link:hover { color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); }
+        
+        .btn-nav-primary { background-color: transparent; color: #00f3ff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid #00f3ff; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); }
+        .btn-nav-primary:hover { background-color: #00f3ff; color: #000; box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        
+        .btn-logout { background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: 0.3s; }
+        .btn-logout:hover { color: #f87171; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); }
+
         .dashboard-container { max-width: 1000px; margin: 40px auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; }
         
+        /* 3. TARJETAS BLANCAS */
+        .profile-card, .history-card { background-color: #ffffff; color: #1e293b; border-radius: 12px; padding: 2rem; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); height: fit-content; }
+        
         /* Panel Izquierdo: Perfil */
-        .profile-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; height: fit-content; }
+        .profile-card { text-align: center; border-top: 6px solid #00f3ff; } /* Acento neón arriba */
         .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.5rem auto; border: 4px solid #e2e8f0; display: block; background-color: #f1f5f9; }
-        .profile-name { font-size: 1.5rem; color: #1e293b; margin-bottom: 0.5rem; }
-        .form-control { width: 100%; padding: 0.5rem; margin-top: 1rem; border: 1px solid #cbd5e1; border-radius: 6px; }
-        .btn-update { width: 100%; background-color: #3b82f6; color: white; padding: 0.75rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; transition: 0.2s; }
-        .btn-update:hover { background-color: #2563eb; }
+        .profile-name { font-size: 1.5rem; color: #0f172a; margin-bottom: 0.5rem; }
+        
+        /* Formularios dentro de la tarjeta blanca */
+        .form-control { width: 100%; padding: 0.6rem; margin-top: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #f8fafc; color: #1e293b; font-family: inherit; }
+        .form-control:focus { outline: none; border-color: #00f3ff; box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.15); }
+        
+        /* Botón de actualizar al estilo Neón */
+        .btn-update { width: 100%; background-color: transparent; color: #00f3ff; padding: 0.75rem; border: 2px solid #00f3ff; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); }
+        .btn-update:hover { background-color: #00f3ff; color: #000; box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
 
         /* Panel Derecho: Historial de Posts */
-        .history-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .section-title { border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1.5rem; color: #334155; }
+        .history-card { border-left: 6px solid #00f3ff; } /* Acento neón a la izquierda */
+        .section-title { font-size: 1.5rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1.5rem; }
         
-        .mini-post { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .mini-post-info h4 { margin: 0; color: #1e293b; font-size: 1.1rem; }
-        .mini-post-info p { margin: 0; color: #64748b; font-size: 0.85rem; }
-        .mini-post-actions a { text-decoration: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin-left: 0.5rem; }
-        .btn-edit { background-color: #fef3c7; color: #d97706; }
-        .btn-delete { background-color: #fee2e2; color: #ef4444; }
+        .mini-post { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, box-shadow 0.2s; }
+        .mini-post:hover { transform: translateX(4px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .mini-post-info h4 { margin: 0; color: #0f172a; font-size: 1.1rem; }
+        .mini-post-info p { margin: 0; color: #64748b; font-size: 0.85rem; margin-top: 0.3rem; }
+        .mini-post-actions a { text-decoration: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin-left: 0.5rem; transition: background-color 0.2s; }
         
-        .alert-success { background-color: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #10b981; }
+        .btn-edit { background-color: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .btn-edit:hover { background-color: #fde68a; }
+        .btn-delete { background-color: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+        .btn-delete:hover { background-color: #fecaca; }
+        
+        .alert-success { background-color: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #10b981; font-weight: 500; font-size: 0.95rem; }
         
         /* Responsive para móviles */
         @media (max-width: 768px) { .dashboard-container { grid-template-columns: 1fr; } }
@@ -40,7 +68,23 @@
 <body>
 
     <nav class="navbar">
-        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 MiBlogPortafolio</a>
+        <a href="{% url 'lista_posts' %}" class="navbar-brand"><i class="fa-solid fa-code"></i> MiBlogPortafolio</a>
+        
+        <div class="navbar-menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_post' %}" class="btn-nav-primary"><i class="fa-solid fa-pen-to-square"></i> Crear un Post</a>
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'perfil' %}" class="nav-link"><i class="fa-solid fa-user"></i> Mi Perfil</a>
+                
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
+                </form>
+            {% else %}
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'login' %}" class="btn-nav-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión</a>
+            {% endif %}
+        </div>
     </nav>
 
     <div class="dashboard-container">
@@ -49,51 +93,70 @@
             {% if perfil.foto_perfil %}
                 <img src="{{ perfil.foto_perfil.url }}" alt="Foto de {{ user.username }}" class="profile-img">
             {% else %}
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sin foto" class="profile-img" style="opacity: 0.5;">
+                <div class="profile-img" style="display: flex; justify-content: center; align-items: center; color: #94a3b8; font-size: 5rem;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
             {% endif %}
             
             <h2 class="profile-name">@{{ user.username }}</h2>
-            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Miembro desde {{ user.date_joined|date:"M Y" }}</p>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;"><i class="fa-regular fa-calendar-check"></i> Miembro desde {{ user.date_joined|date:"M Y" }}</p>
             
+            {% if perfil.biografia %}
+                <div style="background-color: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #00f3ff; margin-bottom: 1.5rem; text-align: left; font-size: 0.95rem; color: #334155;">
+                    <em>"{{ perfil.biografia }}"</em>
+                </div>
+            {% endif %}
+
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert-success">{{ message }}</div>
+                    <div class="alert-success"><i class="fa-solid fa-circle-check"></i> {{ message }}</div>
                 {% endfor %}
             {% endif %}
 
-            <form method="POST" enctype="multipart/form-data" style="text-align: left; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+            <form method="POST" enctype="multipart/form-data" style="text-align: left; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
                 {% csrf_token %}
-                <label style="font-size: 0.9rem; font-weight: bold; color: #475569;">Actualizar foto de perfil:</label>
-                {{ form.foto_perfil }}
-                <button type="submit" class="btn-update">Subir nueva foto</button>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.9rem; font-weight: bold; color: #475569; margin-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> Actualizar foto de perfil:</label>
+                    {{ form.foto_perfil }}
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.9rem; font-weight: bold; color: #475569; margin-bottom: 0.5rem;"><i class="fa-solid fa-address-card"></i> Sobre mí (Biografía):</label>
+                    {{ form.biografia }}
+                </div>
+                
+                <button type="submit" class="btn-update"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button>
             </form>
         </aside>
 
         <section class="history-card">
-            <h3 class="section-title">📚 Mi historial de publicaciones</h3>
+            <h3 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Mi historial de publicaciones</h3>
             
             {% for post in mis_posts %}
                 <div class="mini-post">
                     <div class="mini-post-info">
                         <h4><a href="{% url 'detalle_post' post.id %}" style="text-decoration: none; color: inherit;">{{ post.titulo }}</a></h4>
-                        <p>{{ post.fecha_creacion|date:"d M, Y" }}</p>
+                        <p><i class="fa-regular fa-calendar-days"></i> {{ post.fecha_creacion|date:"d M, Y" }}</p>
                     </div>
                     <div class="mini-post-actions">
-                        <a href="{% url 'editar_post' post.id %}" class="btn-edit">Editar</a>
-                        <a href="{% url 'eliminar_post' post.id %}" class="btn-delete">Borrar</a>
+                        <a href="{% url 'editar_post' post.id %}" class="btn-edit"><i class="fa-solid fa-pen"></i> Editar</a>
+                        <a href="{% url 'eliminar_post' post.id %}" class="btn-delete"><i class="fa-solid fa-trash"></i> Borrar</a>
                     </div>
                 </div>
             {% empty %}
-                <div style="text-align: center; padding: 2rem; color: #64748b;">
+                <div style="text-align: center; padding: 3rem; color: #64748b;">
+                    <i class="fa-solid fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; color: #cbd5e1;"></i>
                     <p>Aún no has escrito ningún artículo.</p>
-                    <a href="{% url 'crear_post' %}" style="display: inline-block; margin-top: 1rem; color: #3b82f6; text-decoration: none; font-weight: bold;">¡Anímate a crear el primero!</a>
+                    <a href="{% url 'crear_post' %}" style="display: inline-block; margin-top: 1rem; color: #00f3ff; text-decoration: none; font-weight: bold;"><i class="fa-solid fa-plus"></i> ¡Anímate a crear el primero!</a>
                 </div>
             {% endfor %}
         </section>
 
     </div>
-    <div>
-        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    
+    <div style="padding-bottom: 2rem;">
+        <p style="text-align: center; width: 100%; display: block; color: #64748b; font-size: 0.9rem;">© 2026 Camilo Robledo Palacios. Todos los derechos reservados.</p>
     </div>
 
 </body>

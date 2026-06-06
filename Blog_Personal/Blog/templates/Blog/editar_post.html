@@ -4,26 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Post</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
-        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
-        .main-container { max-width: 600px; margin: 30px auto; padding: 0 1.5rem; }
-        .form-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .form-title { font-size: 1.75rem; color: #1e293b; margin-bottom: 1.5rem; }
+        
+        /* 1. FONDO NEGRO CON ESTILO */
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #121212; color: #f8fafc; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* 2. BARRA DE NAVEGACIÓN NEÓN AZUL BRILLANTE */
+        .navbar { background-color: #0a0a0a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00f3ff; box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.8); }
+        .navbar-menu { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-link { color: #cbd5e1; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        .nav-link:hover { color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); }
+        
+        .btn-nav-primary { background-color: transparent; color: #00f3ff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid #00f3ff; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); }
+        .btn-nav-primary:hover { background-color: #00f3ff; color: #000; box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        
+        .btn-logout { background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: 0.3s; }
+        .btn-logout:hover { color: #f87171; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); }
+
+        /* Contenedor Principal */
+        .main-container { max-width: 600px; margin: 40px auto; padding: 0 1.5rem; flex-grow: 1; }
+        
+        /* 3. TARJETA BLANCA (Formulario) */
+        .form-card { 
+            background: #ffffff; 
+            padding: 2.5rem; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-top: 6px solid #00f3ff; /* Acento neón en la tarjeta */
+        }
+        
+        .form-title { font-size: 1.75rem; color: #0f172a; margin-bottom: 1.5rem; }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #475569; }
-        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; font-family: inherit; }
-        .btn-submit { width: 100%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 1rem; }
-        .btn-cancel { display: block; text-align: center; color: #64748b; text-decoration: none; margin-top: 1.25rem; font-size: 0.95rem; }
+        
+        /* Inputs estilizados que hacen match con perfil.html */
+        .form-control { 
+            width: 100%; 
+            padding: 0.75rem; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            font-family: inherit; 
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus { 
+            outline: none; 
+            border-color: #00f3ff; 
+            box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.15); 
+        }
+        
+        /* Botón de Guardar estilo Neón */
+        .btn-submit { 
+            width: 100%; 
+            background-color: transparent; 
+            color: #00f3ff; 
+            padding: 1rem; 
+            border: 2px solid #00f3ff; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 1rem; 
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+        }
+        .btn-submit:hover { 
+            background-color: #00f3ff; 
+            color: #000; 
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); 
+        }
+        
+        .btn-cancel { 
+            display: block; 
+            text-align: center; 
+            color: #64748b; 
+            text-decoration: none; 
+            margin-top: 1.25rem; 
+            font-size: 0.95rem; 
+            transition: color 0.2s;
+        }
+        .btn-cancel:hover { 
+            color: #0f172a; 
+            text-decoration: underline; 
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar"><a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 Blog Informatico</a></nav>
+    <nav class="navbar">
+        <a href="{% url 'lista_posts' %}" class="navbar-brand"><i class="fa-solid fa-code"></i> MiBlogPortafolio</a>
+        
+        <div class="navbar-menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_post' %}" class="btn-nav-primary"><i class="fa-solid fa-pen-to-square"></i> Crear un Post</a>
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'perfil' %}" class="nav-link"><i class="fa-solid fa-user"></i> Mi Perfil</a>
+                
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
+                </form>
+            {% else %}
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'login' %}" class="btn-nav-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión</a>
+            {% endif %}
+        </div>
+    </nav>    
+    
     <main class="main-container">
         <div class="form-card">
-            <h2 class="form-title">✏️ Editar Artículo</h2>
+            <h2 class="form-title"><i class="fa-solid fa-pen"></i> Editar Artículo</h2>
             <form method="POST">
                 {% csrf_token %}
                 {% for field in form %}
@@ -32,13 +129,14 @@
                         {{ field }}
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn-submit">Guardar Cambios</button>
-                <a href="{% url 'detalle_post' post.id %}" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Guardar Cambios</button>
+                <a href="{% url 'detalle_post' post.id %}" class="btn-cancel"><i class="fa-solid fa-xmark"></i> Cancelar</a>
             </form>
         </div>
     </main>
-    <div>
-        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    
+    <div style="padding-bottom: 2rem;">
+        <p style="text-align: center; width: 100%; display: block; color: #64748b; font-size: 0.9rem;">© 2026 Camilo Robledo Palacios. Todos los derechos reservados.</p>
     </div>
 </body>
 </html>

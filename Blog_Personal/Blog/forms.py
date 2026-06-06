@@ -15,7 +15,12 @@ class PostForm(forms.ModelForm):
 class PerfilFrom(forms.ModelForm):
     class Meta:
         model = Perfil
-        fields = ['foto_perfil']
+        fields = ['foto_perfil', 'biografia']
         widgets = {
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
+            'biografia': forms.Textarea(attrs={
+                'class': 'form.control',
+                'rows': 4,
+                'placeholder': 'Escribe tus intereses o lo que tu quieras en tu bio...'
+            }),
         }

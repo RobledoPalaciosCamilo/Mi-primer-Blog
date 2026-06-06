@@ -4,29 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Cuenta</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; }
-        .login-card { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        .login-title { font-size: 1.75rem; color: #1e293b; margin-bottom: 2rem; font-weight: 700; text-align: center; }
         
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #475569; }
-        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
-        .form-control:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        /* FONDO NEGRO CON ESTILO */
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: #121212; 
+            color: #f8fafc; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 2rem; 
+        }
         
-        /* Estilos para los textos de ayuda que genera Django (ej. "La contraseña debe tener 8 caracteres...") */
-        .helptext { display: block; font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
-        ul.errorlist { color: #ef4444; list-style: none; padding: 0; margin-top: 0.5rem; font-size: 0.9rem; }
+        /* TARJETA BLANCA (Registro) */
+        .login-card { 
+            background: #ffffff; 
+            padding: 3rem; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-top: 6px solid #00f3ff; /* Acento neón superior */
+            width: 100%; 
+            max-width: 500px; 
+        }
         
-        .btn-submit { width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; margin-top: 1rem; }
-        .btn-submit:hover { transform: translateY(-2px); }
+        .login-title { 
+            font-size: 1.75rem; 
+            color: #0f172a; 
+            margin-bottom: 2rem; 
+            font-weight: 700; 
+            text-align: center; 
+        }
+        
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #475569; font-size: 0.95rem; }
+        
+        /* Estilos aplicados directamente a los inputs que genera el UserCreationForm de Django */
+        .form-group input { 
+            width: 100%; 
+            padding: 0.85rem; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .form-group input:focus { 
+            outline: none; 
+            border-color: #00f3ff; 
+            box-shadow: 0 0 0 4px rgba(0, 243, 255, 0.15); 
+            background-color: #ffffff;
+        }
+        
+        /* Textos de ayuda y errores de Django */
+        .helptext { display: block; font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; line-height: 1.4; }
+        ul.errorlist { color: #ef4444; list-style: none; padding: 0; margin-top: 0.5rem; font-size: 0.9rem; font-weight: 500; }
+        
+        /* Botón de Registro estilo Neón */
+        .btn-submit { 
+            width: 100%; 
+            background-color: transparent; 
+            color: #00f3ff; 
+            padding: 1rem; 
+            border: 2px solid #00f3ff; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 1rem; 
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+        }
+        .btn-submit:hover { 
+            background-color: #00f3ff; 
+            color: #000; 
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); 
+        }
+        
+        .footer-link {
+            color: #00f3ff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .footer-link:hover {
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+        }
     </style>
 </head>
 <body>
 
     <div class="login-card">
-        <h2 class="login-title">👋 Únete a la comunidad</h2>
+        <h2 class="login-title"><i class="fa-solid fa-user-plus"></i> Únete a la comunidad</h2>
 
         <form method="POST">
             {% csrf_token %}
@@ -37,21 +113,21 @@
                     {{ field }}
                     
                     {% if field.help_text %}
-                        <span class="helptext">{{ field.help_text }}</span>
+                        <span class="helptext"><i class="fa-solid fa-circle-info"></i> {{ field.help_text }}</span>
                     {% endif %}
                     
                     {% for error in field.errors %}
-                        <ul class="errorlist"><li>{{ error }}</li></ul>
+                        <ul class="errorlist"><li><i class="fa-solid fa-triangle-exclamation"></i> {{ error }}</li></ul>
                     {% endfor %}
                 </div>
             {% endfor %}
             
-            <button type="submit" class="btn-submit">Crear mi Cuenta</button>
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> Crear mi Cuenta</button>
         </form>
         
         <div style="margin-top: 2rem; text-align: center;">
             <p style="color: #64748b; font-size: 0.95rem;">
-                ¿Ya tienes una cuenta? <a href="{% url 'login' %}" style="color: #3b82f6; font-weight: 600; text-decoration: none;">Inicia sesión aquí</a>
+                ¿Ya tienes una cuenta? <a href="{% url 'login' %}" class="footer-link">Inicia sesión aquí</a>
             </p>
         </div>
     </div>

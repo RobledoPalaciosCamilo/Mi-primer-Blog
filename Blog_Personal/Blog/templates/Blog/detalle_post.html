@@ -4,33 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.titulo }} - Blog Informatico</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; color: #1a202c; line-height: 1.6; }
-        .navbar { background-color: #008ca5; color: #f8fafc; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: white; }
-        .main-container { max-width: 800px; margin: 40px auto; padding: 0 1.5rem; }
+        
+        /* 1. FONDO NEGRO CON ESTILO */
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #121212; color: #f8fafc; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* 2. BARRA DE NAVEGACIÓN NEÓN AZUL BRILLANTE */
+        .navbar { background-color: #0a0a0a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00f3ff; box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.8); }
+        .navbar-menu { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-link { color: #cbd5e1; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        .nav-link:hover { color: #00f3ff; text-shadow: 0 0 8px rgba(0, 243, 255, 0.6); }
+        
+        .btn-nav-primary { background-color: transparent; color: #00f3ff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid #00f3ff; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); }
+        .btn-nav-primary:hover { background-color: #00f3ff; color: #000; box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        
+        .btn-logout { background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: 0.3s; }
+        .btn-logout:hover { color: #f87171; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); }
 
-        /* Estilos específicos para el artículo a pantalla completa */
-        .article-card { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .article-header { margin-bottom: 2rem; text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 2rem; }
-        .article-title { font-size: 2.5rem; color: #1e293b; margin-bottom: 1rem; line-height: 1.2; }
+        /* Contenedor Principal */
+        .main-container { max-width: 800px; margin: 40px auto; padding: 0 1.5rem; flex-grow: 1; }
+
+        /* 3. TARJETA BLANCA (Artículo) */
+        .article-card { 
+            background: #ffffff; 
+            padding: 3rem; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-top: 6px solid #00f3ff; /* Acento neón superior */
+        }
+        
+        .article-header { margin-bottom: 2rem; text-align: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 2rem; }
+        .article-title { font-size: 2.5rem; color: #0f172a; margin-bottom: 1rem; line-height: 1.2; }
         .article-meta { color: #64748b; font-size: 1rem; }
         
-        .article-image { width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        .article-content { font-size: 1.15rem; color: #334155; line-height: 1.8; }
-        /* Ajuste para que los párrafos tengan espacio entre sí */
+        .article-content { font-size: 1.15rem; color: #334155; line-height: 1.8; text-align: justify; }
         .article-content p { margin-bottom: 1.5rem; } 
         
-        .btn-back { display: inline-block; margin-top: 3rem; color: #3b82f6; text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 8px; background-color: #eff6ff; transition: background-color 0.2s; }
-        .btn-back:hover { background-color: #dbeafe; }
+        /* Botones de acción inferiores */
+        .btn-back { 
+            display: inline-block; 
+            margin-top: 3rem; 
+            color: #00f3ff; 
+            text-decoration: none; 
+            font-weight: 600; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 8px; 
+            background-color: transparent; 
+            border: 2px solid #00f3ff;
+            transition: all 0.3s ease; 
+        }
+        .btn-back:hover { 
+            background-color: #00f3ff; 
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+        }
+        
+        .action-buttons { margin-top: 2rem; display: flex; gap: 1rem; }
+        
+        .btn-edit-action { padding: 0.6rem 1.2rem; background-color: #fef3c7; color: #d97706; text-decoration: none; border-radius: 6px; font-weight: bold; border: 1px solid #fde68a; transition: background-color 0.2s; }
+        .btn-edit-action:hover { background-color: #fde68a; }
+        
+        .btn-delete-action { padding: 0.6rem 1.2rem; background-color: #fee2e2; color: #ef4444; text-decoration: none; border-radius: 6px; font-weight: bold; border: 1px solid #fecaca; transition: background-color 0.2s; }
+        .btn-delete-action:hover { background-color: #fecaca; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a href="{% url 'lista_posts' %}" class="navbar-brand">🚀 Blog Informatico</a>
+        <a href="{% url 'lista_posts' %}" class="navbar-brand"><i class="fa-solid fa-code"></i> MiBlogPortafolio</a>
+        
+        <div class="navbar-menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_post' %}" class="btn-nav-primary"><i class="fa-solid fa-pen-to-square"></i> Crear un Post</a>
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'perfil' %}" class="nav-link"><i class="fa-solid fa-user"></i> Mi Perfil</a>
+                
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
+                </form>
+            {% else %}
+                <a href="{% url 'lista_posts' %}" class="nav-link"><i class="fa-solid fa-book"></i> Artículos</a>
+                <a href="{% url 'login' %}" class="btn-nav-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión</a>
+            {% endif %}
+        </div>
     </nav>
 
     <main class="main-container">
@@ -43,12 +105,14 @@
                     {% if post.autor.perfil and post.autor.perfil.foto_perfil %}
                         <img src="{{ post.autor.perfil.foto_perfil.url }}" alt="Foto de {{ post.autor.username }}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     {% else %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Sin foto" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; opacity: 0.5; border: 2px solid #e2e8f0;">
+                        <div style="width: 55px; height: 55px; border-radius: 50%; background-color: #f1f5f9; border: 2px solid #e2e8f0; display: flex; justify-content: center; align-items: center; color: #94a3b8; font-size: 1.5rem;">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
                     {% endif %}
 
                     <div style="text-align: left; line-height: 1.3;">
                         <span style="color: #1e293b; font-weight: bold; font-size: 1.1rem;">{{ post.autor.username }}</span><br>
-                        <span style="color: #64748b; font-size: 0.95rem;">🗓️ {{ post.fecha_creacion|date:"d \d\e F, Y" }}</span>
+                        <span style="color: #64748b; font-size: 0.95rem;"><i class="fa-regular fa-calendar-days"></i> {{ post.fecha_creacion|date:"d \d\e F, Y" }}</span>
                     </div>
 
                 </div>
@@ -58,16 +122,20 @@
                 {{ post.contenido|linebreaks }}
             </div>
 
-            <a href="{% url 'lista_posts' %}" class="btn-back">← Volver a todos los artículos</a>
-            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                <a href="{% url 'editar_post' post.id %}" style="padding: 0.5rem 1rem; background-color: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">✏️ Editar</a>
-                <a href="{% url 'eliminar_post' post.id %}" style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; text-decoration: none; border-radius: 6px;">🗑️ Eliminar</a>
+            <a href="{% url 'lista_posts' %}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver a todos los artículos</a>
+            
+            <div class="action-buttons">
+                {% if user.is_authenticated and post.autor == user %}
+                    <a href="{% url 'editar_post' post.id %}" class="btn-edit-action"><i class="fa-solid fa-pen"></i> Editar</a>
+                    <a href="{% url 'eliminar_post' post.id %}" class="btn-delete-action"><i class="fa-solid fa-trash"></i> Eliminar</a>
+                {% endif %}
             </div>
             
         </article>
     </main>
-    <div>
-        <p style="text-align: center; width: 100%; display: block;">© 2026 Blog Informatico. Todos los derechos reservados.</p>
+    
+    <div style="padding-bottom: 2rem;">
+        <p style="text-align: center; width: 100%; display: block; color: #64748b; font-size: 0.9rem;">© 2026 Camilo Robledo Palacios. Todos los derechos reservados.</p>
     </div>
 
 </body>

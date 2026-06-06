@@ -4,11 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .login-card { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
-        .login-title { font-size: 1.8rem; color: #1e293b; margin-bottom: 2rem; font-weight: 700; text-align: center; }
+        
+        /* FONDO NEGRO CON ESTILO */
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: #121212; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            color: #f8fafc;
+        }
+        
+        /* TARJETA BLANCA (Login) */
+        .login-card { 
+            background: #ffffff; 
+            padding: 3rem; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-top: 6px solid #00f3ff; /* Acento neón superior */
+            width: 100%; 
+            max-width: 420px; 
+        }
+        
+        .login-title { 
+            font-size: 1.8rem; 
+            color: #0f172a; 
+            margin-bottom: 2rem; 
+            font-weight: 700; 
+            text-align: center; 
+        }
         
         .form-group { margin-bottom: 1.5rem; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #475569; font-size: 0.95rem; }
@@ -21,32 +51,81 @@
             border: 2px solid #e2e8f0; 
             border-radius: 8px; 
             font-size: 1rem; 
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             background-color: #f8fafc;
+            color: #1e293b;
         }
         .form-group input[type="text"]:focus, 
         .form-group input[type="password"]:focus { 
             outline: none; 
-            border-color: #3b82f6; 
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); 
+            border-color: #00f3ff; 
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 243, 255, 0.15); 
         }
         
-        .btn-submit { width: 100%; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+        /* Botón de Login estilo Neón */
+        .btn-submit { 
+            width: 100%; 
+            background-color: transparent; 
+            color: #00f3ff; 
+            padding: 1rem; 
+            border: 2px solid #00f3ff; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); 
+            margin-top: 0.5rem; 
+        }
+        .btn-submit:hover { 
+            background-color: #00f3ff; 
+            color: #000; 
+            transform: translateY(-2px); 
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); 
+        }
         
-        .error-message { color: #b91c1c; background-color: #fee2e2; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; border-left: 4px solid #ef4444; }
-        .help-text { text-align: center; margin-top: 2rem; }
+        .error-message { 
+            color: #b91c1c; 
+            background-color: #fee2e2; 
+            padding: 1rem; 
+            border-radius: 8px; 
+            margin-bottom: 1.5rem; 
+            font-size: 0.95rem; 
+            border-left: 4px solid #ef4444; 
+        }
+        
+        /* Enlaces inferiores */
+        .footer-link {
+            color: #00f3ff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .footer-link:hover {
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+        }
+        
+        .back-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #0f172a;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
     <div class="login-card">
-        <h2 class="login-title">🔐 Iniciar Sesión</h2>
+        <h2 class="login-title"><i class="fa-solid fa-lock"></i> Iniciar Sesión</h2>
         
         {% if form.errors %}
             <div class="error-message">
-                Usuario o contraseña incorrectos. Por favor, intenta de nuevo.
+                <i class="fa-solid fa-triangle-exclamation"></i> Usuario o contraseña incorrectos. Por favor, intenta de nuevo.
             </div>
         {% endif %}
 
@@ -63,14 +142,14 @@
                 {{ form.password }}
             </div>
             
-            <button type="submit" class="btn-submit">Entrar al Sistema</button>
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-right-to-bracket"></i> Entrar al Sistema</button>
         </form>
         
         <div style="margin-top: 2rem; text-align: center;">
             <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1rem;">
-                ¿No tienes cuenta? <a href="{% url 'registro' %}" style="color: #10b981; font-weight: 600; text-decoration: none;">Regístrate aquí</a>
+                ¿No tienes cuenta? <a href="{% url 'registro' %}" class="footer-link">Regístrate aquí</a>
             </p>
-            <a href="{% url 'lista_posts' %}" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem;">← Volver al inicio</a>
+            <a href="{% url 'lista_posts' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
         </div>
     </div>
 
